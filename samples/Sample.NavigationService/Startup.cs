@@ -1,3 +1,4 @@
+using LightOps.Commerce.Services.Navigation.Backends.InMemory.Configuration;
 using LightOps.Commerce.Services.Navigation.Configuration;
 using LightOps.Commerce.Services.Navigation.Domain.GrpcServices;
 using LightOps.CQRS.Configuration;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Sample.NavigationService.Data;
 
 namespace Sample.NavigationService
 {
@@ -20,7 +22,20 @@ namespace Sample.NavigationService
             {
                 root
                     .AddCqrs()
-                    .AddNavigationService();
+                    .AddNavigationService(service =>
+                    {
+                        service.UseInMemoryBackend(root, backend =>
+                        {
+                            var factory = new BogusNavigationFactory
+                            {
+                                Seed = 123,
+                            };
+                            factory.Generate();
+
+                            backend
+                                .UseNavigations(factory.Navigations);
+                        });
+                    });
             });
 
             services.AddGrpc();
