@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package service.navigation.v1;
+
+option csharp_namespace = "LightOps.Commerce.Proto.Services.Navigation.V1";
+
+import "google/protobuf/wrappers.proto";
+
+/*************
+ * Models
+ *************/
+message NavigationLink {
+	string url = 1;
+	string title = 2;
+	string target = 3;
+}
+
+message Navigation {
+	string id = 1;
+	string handle = 2;
+
+	google.protobuf.StringValue parent_navigation_id = 3;
+
+	NavigationLink header = 4;
+	repeated NavigationLink links = 5;
+
+	repeated Navigation sub_navigations = 6;
+}
+
+
+/*************
+ * Services
+ *************/
+service NavigationService {
+  rpc GetNavigation(GetNavigationRequest) returns (GetNavigationResponse) {}
+  rpc GetNavigationsByRoot(GetNavigationsByRootRequest) returns (GetNavigationsByRootResponse) {}
+  rpc GetNavigationsByParentId(GetNavigationsByParentIdRequest) returns (GetNavigationsByParentIdResponse) {}
+}
+
+/*************
+ * Service Models
+ *************/
+// GetNavigation
+message GetNavigationRequest {
+  oneof identifier {
+    string id = 1;
+    string handle = 2;
+  }
+}
+
+message GetNavigationResponse {
+  Navigation navigation = 1;
+}
+
+// GetNavigationsByRoot
+message GetNavigationsByRootRequest {
+
+}
+
+message GetNavigationsByRootResponse {
+  repeated Navigation navigation = 1;
+}
+
+// GetNavigationsByParendId
+message GetNavigationsByParentIdRequest {
+  string parent_id = 1;
+}
+
+message GetNavigationsByParentIdResponse {
+  repeated Navigation navigation = 1;
+}
