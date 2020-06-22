@@ -1,5 +1,7 @@
-﻿using LightOps.Commerce.Services.Navigation.Api.QueryHandlers;
+﻿using LightOps.Commerce.Services.Navigation.Api.Models;
+using LightOps.Commerce.Services.Navigation.Api.QueryHandlers;
 using LightOps.Commerce.Services.Navigation.Api.Services;
+using LightOps.Mapping.Api.Mappers;
 
 namespace LightOps.Commerce.Services.Navigation.Configuration
 {
@@ -8,6 +10,11 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
         #region Services
         INavigationServiceComponent OverrideNavigationService<T>() where T : INavigationService;
         #endregion Services
+
+        #region Mappers
+        INavigationServiceComponent OverrideNavigationGrpcMapperV1<T>() where T : IMapper<INavigation, Proto.Services.Navigation.V1.Navigation>;
+        INavigationServiceComponent OverrideNavigationLinkGrpcMapperV1<T>() where T : IMapper<INavigationLink, Proto.Services.Navigation.V1.NavigationLink>;
+        #endregion Mappers
 
         #region Query Handlers
         INavigationServiceComponent OverrideFetchNavigationsByParentIdQueryHandler<T>() where T : IFetchNavigationsByParentIdQueryHandler;

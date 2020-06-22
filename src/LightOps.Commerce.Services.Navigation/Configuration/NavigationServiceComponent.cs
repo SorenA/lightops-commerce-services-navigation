@@ -4,10 +4,11 @@ using LightOps.Commerce.Services.Navigation.Api.Models;
 using LightOps.Commerce.Services.Navigation.Api.Queries;
 using LightOps.Commerce.Services.Navigation.Api.QueryHandlers;
 using LightOps.Commerce.Services.Navigation.Api.Services;
-using LightOps.Commerce.Services.Navigation.Domain.Services;
+using LightOps.Commerce.Services.Navigation.Domain.Mappers;
 using LightOps.CQRS.Api.Queries;
 using LightOps.DependencyInjection.Api.Configuration;
 using LightOps.DependencyInjection.Domain.Configuration;
+using LightOps.Mapping.Api.Mappers;
 
 namespace LightOps.Commerce.Services.Navigation.Configuration
 {
@@ -31,7 +32,7 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
 
         private readonly Dictionary<Services, ServiceRegistration> _services = new Dictionary<Services, ServiceRegistration>
         {
-            [Services.NavigationService] = ServiceRegistration.Scoped<INavigationService, NavigationService>(),
+            [Services.NavigationService] = ServiceRegistration.Scoped<INavigationService, Domain.Services.NavigationService>(),
         };
 
         public INavigationServiceComponent OverrideNavigationService<T>()
@@ -41,6 +42,32 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
             return this;
         }
         #endregion Services
+
+        #region Mappers
+        internal enum Mappers
+        {
+            NavigationGrpcMapperV1,
+            NavigationLinkGrpcMapperV1,
+        }
+
+        private readonly Dictionary<Mappers, ServiceRegistration> _mappers = new Dictionary<Mappers, ServiceRegistration>
+        {
+            [Mappers.NavigationGrpcMapperV1] = ServiceRegistration.Scoped<IMapper<INavigation, Proto.Services.Navigation.V1.Navigation>, NavigationGrpcMapperV1>(),
+            [Mappers.NavigationLinkGrpcMapperV1] = ServiceRegistration.Scoped<IMapper<INavigationLink, Proto.Services.Navigation.V1.NavigationLink>, NavigationLinkGrpcMapperV1>(),
+        };
+
+        public INavigationServiceComponent OverrideNavigationGrpcMapperV1<T>() where T : IMapper<INavigation, Proto.Services.Navigation.V1.Navigation>
+        {
+            _mappers[Mappers.NavigationGrpcMapperV1].ImplementationType = typeof(T);
+            return this;
+        }
+
+        public INavigationServiceComponent OverrideNavigationLinkGrpcMapperV1<T>() where T : IMapper<INavigationLink, Proto.Services.Navigation.V1.NavigationLink>
+        {
+            _mappers[Mappers.NavigationLinkGrpcMapperV1].ImplementationType = typeof(T);
+            return this;
+        }
+        #endregion Mappers
 
         #region Query Handlers
         internal enum QueryHandlers
