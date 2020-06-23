@@ -40,6 +40,8 @@ services.AddLightOpsDependencyInjection(root =>
             // ...
         });
 });
+
+services.AddGrpc();
 ```
 
 Register gRPC services for integrations.
