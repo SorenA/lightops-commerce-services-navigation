@@ -71,6 +71,7 @@ Using the `INavigationServiceComponent` configuration, the following can be over
 public interface INavigationServiceComponent
 {
     #region Services
+    INavigationServiceComponent OverrideHealthService<T>() where T : IHealthService;
     INavigationServiceComponent OverrideNavigationService<T>() where T : INavigationService;
     #endregion Services
 
@@ -80,13 +81,13 @@ public interface INavigationServiceComponent
     #endregion Mappers
 
     #region Query Handlers
+    INavigationServiceComponent OverrideCheckNavigationHealthQueryHandler<T>() where T : ICheckNavigationHealthQueryHandler;
     INavigationServiceComponent OverrideFetchNavigationsByParentIdQueryHandler<T>() where T : IFetchNavigationsByParentIdQueryHandler;
     INavigationServiceComponent OverrideFetchNavigationsByRootQueryHandler<T>() where T : IFetchNavigationsByRootQueryHandler;
     INavigationServiceComponent OverrideFetchNavigationByHandleQueryHandler<T>() where T : IFetchNavigationByHandleQueryHandler;
     INavigationServiceComponent OverrideFetchNavigationByIdQueryHandler<T>() where T : IFetchNavigationByIdQueryHandler;
     #endregion Query Handlers
 }
-
 ```
 
 `INavigationService` is used by the gRPC services and query the data using the `IQueryDispatcher` from the `LightOps.CQRS` package.

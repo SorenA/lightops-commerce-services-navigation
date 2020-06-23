@@ -8,6 +8,7 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
     public interface INavigationServiceComponent
     {
         #region Services
+        INavigationServiceComponent OverrideHealthService<T>() where T : IHealthService;
         INavigationServiceComponent OverrideNavigationService<T>() where T : INavigationService;
         #endregion Services
 
@@ -17,6 +18,7 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
         #endregion Mappers
 
         #region Query Handlers
+        INavigationServiceComponent OverrideCheckNavigationHealthQueryHandler<T>() where T : ICheckNavigationHealthQueryHandler;
         INavigationServiceComponent OverrideFetchNavigationsByParentIdQueryHandler<T>() where T : IFetchNavigationsByParentIdQueryHandler;
         INavigationServiceComponent OverrideFetchNavigationsByRootQueryHandler<T>() where T : IFetchNavigationsByRootQueryHandler;
         INavigationServiceComponent OverrideFetchNavigationByHandleQueryHandler<T>() where T : IFetchNavigationByHandleQueryHandler;

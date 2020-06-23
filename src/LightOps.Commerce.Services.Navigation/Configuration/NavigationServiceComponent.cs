@@ -10,6 +10,7 @@ using LightOps.CQRS.Api.Queries;
 using LightOps.DependencyInjection.Api.Configuration;
 using LightOps.DependencyInjection.Domain.Configuration;
 using LightOps.Mapping.Api.Mappers;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace LightOps.Commerce.Services.Navigation.Configuration
 {
@@ -29,13 +30,22 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
         #region Services
         internal enum Services
         {
+            HealthService,
             NavigationService,
         }
 
         private readonly Dictionary<Services, ServiceRegistration> _services = new Dictionary<Services, ServiceRegistration>
         {
+            [Services.HealthService] = ServiceRegistration.Scoped<IHealthService, HealthService>(),
             [Services.NavigationService] = ServiceRegistration.Scoped<INavigationService, NavigationService>(),
         };
+
+        public INavigationServiceComponent OverrideHealthService<T>()
+            where T : IHealthService
+        {
+            _services[Services.HealthService].ImplementationType = typeof(T);
+            return this;
+        }
 
         public INavigationServiceComponent OverrideNavigationService<T>()
             where T : INavigationService
@@ -76,6 +86,7 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
         #region Query Handlers
         internal enum QueryHandlers
         {
+            CheckNavigationHealthQueryHandler,
             FetchNavigationsByParentIdQueryHandler,
             FetchNavigationsByRootQueryHandler,
             FetchNavigationByHandleQueryHandler,
@@ -84,11 +95,18 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
 
         private readonly Dictionary<QueryHandlers, ServiceRegistration> _queryHandlers = new Dictionary<QueryHandlers, ServiceRegistration>
         {
+            [QueryHandlers.CheckNavigationHealthQueryHandler] = ServiceRegistration.Scoped<IQueryHandler<CheckNavigationHealthQuery, HealthStatus>>(),
             [QueryHandlers.FetchNavigationsByParentIdQueryHandler] = ServiceRegistration.Scoped<IQueryHandler<FetchNavigationsByParentIdQuery, IList<INavigation>>>(),
             [QueryHandlers.FetchNavigationsByRootQueryHandler] = ServiceRegistration.Scoped<IQueryHandler<FetchNavigationsByRootQuery, IList<INavigation>>>(),
             [QueryHandlers.FetchNavigationByHandleQueryHandler] = ServiceRegistration.Scoped<IQueryHandler<FetchNavigationByHandleQuery, INavigation>>(),
             [QueryHandlers.FetchNavigationByIdQueryHandler] = ServiceRegistration.Scoped<IQueryHandler<FetchNavigationByIdQuery, INavigation>>(),
         };
+
+        public INavigationServiceComponent OverrideCheckNavigationHealthQueryHandler<T>() where T : ICheckNavigationHealthQueryHandler
+        {
+            _queryHandlers[QueryHandlers.CheckNavigationHealthQueryHandler].ImplementationType = typeof(T);
+            return this;
+        }
 
         public INavigationServiceComponent OverrideFetchNavigationsByParentIdQueryHandler<T>() where T : IFetchNavigationsByParentIdQueryHandler
         {
