@@ -16,9 +16,9 @@ namespace Sample.NavigationService
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.ConfigureKestrel((options) =>
+                    webBuilder.ConfigureKestrel((kestrel) =>
                     {
-                        options.ConfigureEndpointDefaults(options =>
+                        kestrel.ConfigureEndpointDefaults(options =>
                         {
                             options.Protocols = HttpProtocols.Http2;
                         });

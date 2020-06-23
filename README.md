@@ -10,7 +10,21 @@ Provides gRPC services for integrations into other services.
 
 Protobuf service definitions located at [SorenA/lightops-commerce-proto](https://github.com/SorenA/lightops-commerce-proto).
 
-Version 1 is implemented in `Domain.Services.V1.NavigationGrpcService`.
+Navigation v1 is implemented in `Domain.Services.V1.NavigationGrpcService`.
+
+Health v1 is implemented in `Domain.Services.V1.HealthGrpcService`.
+
+### Health-check
+
+Health-checks conforms to the [GRPC Health Checking Protocol](https://github.com/grpc/grpc/blob/master/doc/health-checking.md)
+
+Available services are as follows
+
+```bash
+service = '' - System as a whole
+service = 'service.navigation.v1.ProtoNavigationService' - Navigation v1
+```
+
 
 ## Samples
 
@@ -50,6 +64,7 @@ Register gRPC services for integrations.
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapGrpcService<NavigationGrpcService>();
+    endpoints.MapGrpcService<HealthGrpcService>();
 
     // Map other endpoints...
 });
