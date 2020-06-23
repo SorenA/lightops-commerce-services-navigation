@@ -6,20 +6,20 @@ using LightOps.Mapping.Api.Services;
 
 // ReSharper disable UseObjectOrCollectionInitializer
 
-namespace LightOps.Commerce.Services.Navigation.Domain.Mappers
+namespace LightOps.Commerce.Services.Navigation.Domain.Mappers.V1
 {
-    public class NavigationGrpcMapperV1 : IMapper<INavigation, Proto.Services.Navigation.V1.Navigation>
+    public class ProtoNavigationMapper : IMapper<INavigation, ProtoNavigation>
     {
         private readonly IMappingService _mappingService;
 
-        public NavigationGrpcMapperV1(IMappingService mappingService)
+        public ProtoNavigationMapper(IMappingService mappingService)
         {
             _mappingService = mappingService;
         }
 
-        public Proto.Services.Navigation.V1.Navigation Map(INavigation source)
+        public ProtoNavigation Map(INavigation source)
         {
-            var dest = new Proto.Services.Navigation.V1.Navigation();
+            var dest = new ProtoNavigation();
 
             dest.Id = source.Id;
             dest.Handle = source.Handle;
@@ -27,10 +27,10 @@ namespace LightOps.Commerce.Services.Navigation.Domain.Mappers
             dest.ParentNavigationId = source.ParentNavigationId;
 
             dest.Header = _mappingService
-                .Map<INavigationLink, NavigationLink>(source.Header);
+                .Map<INavigationLink, ProtoNavigationLink>(source.Header);
 
             var links = _mappingService
-                .Map<INavigationLink, NavigationLink>(source.Links)
+                .Map<INavigationLink, ProtoNavigationLink>(source.Links)
                 .ToList();
             dest.Links.AddRange(links);
 

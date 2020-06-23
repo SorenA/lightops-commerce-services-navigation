@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <Folder Include="Api\" />
+    <Folder Include="Domain\GrpcServices\" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,10 @@
+using LightOps.Commerce.Proto.Services.Navigation.V1;
 using LightOps.Commerce.Services.Navigation.Backends.InMemory.Configuration;
 using LightOps.Commerce.Services.Navigation.Configuration;
-using LightOps.Commerce.Services.Navigation.Domain.GrpcServices;
+using LightOps.Commerce.Services.Navigation.Domain.Services.V1;
 using LightOps.CQRS.Configuration;
 using LightOps.DependencyInjection.Configuration;
+using LightOps.Mapping.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -21,6 +23,7 @@ namespace Sample.NavigationService
             services.AddLightOpsDependencyInjection(root =>
             {
                 root
+                    .AddMapping()
                     .AddCqrs()
                     .AddNavigationService(service =>
                     {
@@ -53,7 +56,7 @@ namespace Sample.NavigationService
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<NavigationGrpcServiceV1>();
+                endpoints.MapGrpcService<NavigationGrpcService>();
 
                 endpoints.MapGet("/", async context =>
                 {

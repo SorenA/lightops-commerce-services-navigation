@@ -4,7 +4,8 @@ using LightOps.Commerce.Services.Navigation.Api.Models;
 using LightOps.Commerce.Services.Navigation.Api.Queries;
 using LightOps.Commerce.Services.Navigation.Api.QueryHandlers;
 using LightOps.Commerce.Services.Navigation.Api.Services;
-using LightOps.Commerce.Services.Navigation.Domain.Mappers;
+using LightOps.Commerce.Services.Navigation.Domain.Mappers.V1;
+using LightOps.Commerce.Services.Navigation.Domain.Services;
 using LightOps.CQRS.Api.Queries;
 using LightOps.DependencyInjection.Api.Configuration;
 using LightOps.DependencyInjection.Domain.Configuration;
@@ -20,6 +21,7 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
         {
             return new List<ServiceRegistration>()
                 .Union(_services.Values)
+                .Union(_mappers.Values)
                 .Union(_queryHandlers.Values)
                 .ToList();
         }
@@ -32,7 +34,7 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
 
         private readonly Dictionary<Services, ServiceRegistration> _services = new Dictionary<Services, ServiceRegistration>
         {
-            [Services.NavigationService] = ServiceRegistration.Scoped<INavigationService, Domain.Services.NavigationService>(),
+            [Services.NavigationService] = ServiceRegistration.Scoped<INavigationService, NavigationService>(),
         };
 
         public INavigationServiceComponent OverrideNavigationService<T>()
@@ -46,25 +48,27 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
         #region Mappers
         internal enum Mappers
         {
-            NavigationGrpcMapperV1,
-            NavigationLinkGrpcMapperV1,
+            OverrideProtoNavigationMapperV1,
+            OverrideProtoNavigationLinkMapperV1,
         }
 
         private readonly Dictionary<Mappers, ServiceRegistration> _mappers = new Dictionary<Mappers, ServiceRegistration>
         {
-            [Mappers.NavigationGrpcMapperV1] = ServiceRegistration.Scoped<IMapper<INavigation, Proto.Services.Navigation.V1.Navigation>, NavigationGrpcMapperV1>(),
-            [Mappers.NavigationLinkGrpcMapperV1] = ServiceRegistration.Scoped<IMapper<INavigationLink, Proto.Services.Navigation.V1.NavigationLink>, NavigationLinkGrpcMapperV1>(),
+            [Mappers.OverrideProtoNavigationMapperV1] = ServiceRegistration
+                .Scoped<IMapper<INavigation, Proto.Services.Navigation.V1.ProtoNavigation>, ProtoNavigationMapper>(),
+            [Mappers.OverrideProtoNavigationLinkMapperV1] = ServiceRegistration
+                .Scoped<IMapper<INavigationLink, Proto.Services.Navigation.V1.ProtoNavigationLink>, ProtoNavigationLinkMapper>(),
         };
 
-        public INavigationServiceComponent OverrideNavigationGrpcMapperV1<T>() where T : IMapper<INavigation, Proto.Services.Navigation.V1.Navigation>
+        public INavigationServiceComponent OverrideProtoNavigationMapperV1<T>() where T : IMapper<INavigation, Proto.Services.Navigation.V1.ProtoNavigation>
         {
-            _mappers[Mappers.NavigationGrpcMapperV1].ImplementationType = typeof(T);
+            _mappers[Mappers.OverrideProtoNavigationMapperV1].ImplementationType = typeof(T);
             return this;
         }
 
-        public INavigationServiceComponent OverrideNavigationLinkGrpcMapperV1<T>() where T : IMapper<INavigationLink, Proto.Services.Navigation.V1.NavigationLink>
+        public INavigationServiceComponent OverrideProtoNavigationLinkMapperV1<T>() where T : IMapper<INavigationLink, Proto.Services.Navigation.V1.ProtoNavigationLink>
         {
-            _mappers[Mappers.NavigationLinkGrpcMapperV1].ImplementationType = typeof(T);
+            _mappers[Mappers.OverrideProtoNavigationLinkMapperV1].ImplementationType = typeof(T);
             return this;
         }
         #endregion Mappers

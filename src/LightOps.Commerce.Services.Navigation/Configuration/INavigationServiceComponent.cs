@@ -12,8 +12,8 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
         #endregion Services
 
         #region Mappers
-        INavigationServiceComponent OverrideNavigationGrpcMapperV1<T>() where T : IMapper<INavigation, Proto.Services.Navigation.V1.Navigation>;
-        INavigationServiceComponent OverrideNavigationLinkGrpcMapperV1<T>() where T : IMapper<INavigationLink, Proto.Services.Navigation.V1.NavigationLink>;
+        INavigationServiceComponent OverrideProtoNavigationMapperV1<T>() where T : IMapper<INavigation, Proto.Services.Navigation.V1.ProtoNavigation>;
+        INavigationServiceComponent OverrideProtoNavigationLinkMapperV1<T>() where T : IMapper<INavigationLink, Proto.Services.Navigation.V1.ProtoNavigationLink>;
         #endregion Mappers
 
         #region Query Handlers
