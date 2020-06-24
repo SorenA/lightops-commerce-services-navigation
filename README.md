@@ -6,7 +6,7 @@ Defines navigations and navigation links.
 Uses CQRS to fetch entities from data-source without defining any.  
 Provides gRPC services for integrations into other services.
 
-![Nuget](https://img.shields.io/nuget/v/LightOps.Commerce.Services.Navigation.Backends.InMemory)
+![Nuget](https://img.shields.io/nuget/v/LightOps.Commerce.Services.Navigation)
 
 | Branch | CI |
 | --- | --- |
