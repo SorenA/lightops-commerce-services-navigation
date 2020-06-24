@@ -105,7 +105,7 @@ stages:
               targetPath: '$(Build.ArtifactStagingDirectory)'
               artifactName: nupkg
               
-      - job: Build Docker images
+      - job: BuildDockerImages
         displayName: Build Docker images
         pool:
           vmImage: ubuntu-18.04
