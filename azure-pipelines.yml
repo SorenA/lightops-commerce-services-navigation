@@ -110,8 +110,8 @@ stages:
     condition: and(succeeded(), eq(variables.releaseOnNuget, 'true'))
     jobs:
       - deployment: ReleaseNuGet
-        displayName: Release on NuGet - sorendev
-        environment: SorenDev
+        displayName: Release on NuGet.org
+        environment: NuGetOrg
         pool:
           vmImage: ubuntu-18.04
         strategy:
@@ -131,14 +131,12 @@ stages:
                     script: |
                       git tag $(semVersion)
                       git push --tags
-                
-                - task: NuGetAuthenticate@0
-                  displayName: NuGet authenticate
-                
+                      
                 - task: NuGetCommand@2
-                  displayName: Release on NuGet - sorendev
+                  displayName: Release on NuGet.org
                   inputs:
                     command: push
                     packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Workspace)/**/*.symbols.nupkg'
-                    publishVstsFeed: sorendev
+                    nuGetFeedType: external
+                    publishFeedCredentials: NuGet.org
                     
