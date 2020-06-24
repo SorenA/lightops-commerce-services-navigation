@@ -6,7 +6,7 @@ EXPOSE 80
 
 # Install gRPC probe
 RUN GRPC_HEALTH_PROBE_VERSION=v0.3.1 && \
-    wget -qO/bin/grpc_health_probe https://github.com/grpc-ecosystem/grpc-health-probe/releases/download/${GRPC_HEALTH_PROBE_VERSION}/grpc_health_probe-linux-amd64 && \
+    curl -s https://github.com/grpc-ecosystem/grpc-health-probe/releases/download/${GRPC_HEALTH_PROBE_VERSION}/grpc_health_probe-linux-amd64 -o /bin/grpc_health_probe && \
     chmod +x /bin/grpc_health_probe
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
