@@ -133,12 +133,12 @@ stages:
                       git push --tags
                 
                 - task: NuGetAuthenticate@0
+                  displayName: NuGet authenticate
                 
                 - task: NuGetCommand@2
                   displayName: Release on NuGet - sorendev
                   inputs:
                     command: push
                     packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg;!$(Pipeline.Workspace)/**/*.symbols.nupkg'
-                    nuGetFeedType: internal
-                    publishVstsFeed: 320c2766-cfba-4071-b0be-7face772fcc4
+                    publishVstsFeed: sorendev
                     
