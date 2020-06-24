@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.0] - 2020-06-24
+
 ### Added
 
 - CHANGELOG file
@@ -21,4 +23,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Health service using CQRS for status checks
 - In-memory backend providing default query handlers
 
-[unreleased]: https://github.com/SorenA/lightops-commerce-services-navigation/compare/master...develop
+[unreleased]: https://github.com/SorenA/lightops-commerce-services-navigation/compare/0.1.0...develop
+[0.1.0]: https://github.com/SorenA/lightops-commerce-services-navigation/tree/0.1.0
