@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <PackageId>LightOps.Commerce.Services.Navigation</PackageId>
+    <Authors>SorenA</Authors>
+    <Description>.NET Core microservice package for navigations.</Description>
+    <IsPackable>true</IsPackable>
+    <RepositoryUrl>https://github.com/SorenA/lightops-commerce-services-navigation</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
