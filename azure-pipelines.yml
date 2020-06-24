@@ -105,6 +105,17 @@ stages:
               targetPath: '$(Build.ArtifactStagingDirectory)'
               artifactName: nupkg
               
+      - job: Build Docker images
+        displayName: Build Docker images
+        pool:
+          vmImage: ubuntu-18.04
+        steps:
+          - task: Docker@2
+            inputs:
+              command: build
+              Dockerfile: '**/Dockerfile'
+              buildContext: './'
+              
   - stage: Release
     displayName: Release
     condition: and(succeeded(), eq(variables.releaseOnNuget, 'true'))
