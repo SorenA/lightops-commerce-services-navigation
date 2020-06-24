@@ -25,6 +25,7 @@ service = '' - System as a whole
 service = 'service.navigation.v1.ProtoNavigationService' - Navigation v1
 ```
 
+For embedding a gRPC client for use with Kubernetes, see [grpc-ecosystem/grpc-health-probe](https://github.com/grpc-ecosystem/grpc-health-probe)
 
 ## Samples
 
