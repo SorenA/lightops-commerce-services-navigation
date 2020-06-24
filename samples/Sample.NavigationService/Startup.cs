@@ -56,6 +56,7 @@ namespace Sample.NavigationService
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGrpcService<HealthGrpcService>();
                 endpoints.MapGrpcService<NavigationGrpcService>();
 
                 endpoints.MapGet("/", async context =>
