@@ -6,6 +6,13 @@ Defines navigations and navigation links.
 Uses CQRS to fetch entities from data-source without defining any.  
 Provides gRPC services for integrations into other services.
 
+![Nuget](https://img.shields.io/nuget/v/LightOps.Commerce.Services.Navigation.Backends.InMemory)
+
+| Branch | CI |
+| --- | --- |
+| master | ![Build Status](https://dev.azure.com/sorendev/LightOps%20Commerce/_apis/build/status/SorenA.lightops-commerce-services-navigation?branchName=master) |
+| develop | ![Build Status](https://dev.azure.com/sorendev/LightOps%20Commerce/_apis/build/status/SorenA.lightops-commerce-services-navigation?branchName=develop) |
+
 ## gRPC services
 
 Protobuf service definitions located at [SorenA/lightops-commerce-proto](https://github.com/SorenA/lightops-commerce-proto).
