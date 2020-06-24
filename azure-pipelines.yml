@@ -131,7 +131,9 @@ stages:
                     script: |
                       git tag $(semVersion)
                       git push --tags
-                      
+                
+                - task: NuGetAuthenticate@0
+                
                 - task: NuGetCommand@2
                   displayName: Release on NuGet - sorendev
                   inputs:
