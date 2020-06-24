@@ -109,3 +109,25 @@ public interface INavigationServiceComponent
 `INavigationService` is used by the gRPC services and query the data using the `IQueryDispatcher` from the `LightOps.CQRS` package.
 
 The mappers are used for mapping the internal data structure to the versioned protobuf messages.
+
+## Backend modules
+
+### In-Memory
+
+Register during startup through the `UseInMemoryBackend(root, options)` extension on `INavigationServiceComponent`.
+
+```csharp
+root.AddNavigationService(service =>
+{
+    service.UseInMemoryBackend(root, backend =>
+    {
+        var navigations = new List<INavigation>();
+        // ...
+
+        backend.UseNavigations(navigations);
+    });
+
+    // Configure service
+    // ...
+});
+```
