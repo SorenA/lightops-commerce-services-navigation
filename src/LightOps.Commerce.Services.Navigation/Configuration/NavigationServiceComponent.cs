@@ -58,27 +58,27 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
         #region Mappers
         internal enum Mappers
         {
-            OverrideProtoNavigationMapperV1,
-            OverrideProtoNavigationLinkMapperV1,
+            ProtoNavigationMapperV1,
+            ProtoNavigationLinkMapperV1,
         }
 
         private readonly Dictionary<Mappers, ServiceRegistration> _mappers = new Dictionary<Mappers, ServiceRegistration>
         {
-            [Mappers.OverrideProtoNavigationMapperV1] = ServiceRegistration
+            [Mappers.ProtoNavigationMapperV1] = ServiceRegistration
                 .Scoped<IMapper<INavigation, Proto.Services.Navigation.V1.ProtoNavigation>, ProtoNavigationMapper>(),
-            [Mappers.OverrideProtoNavigationLinkMapperV1] = ServiceRegistration
+            [Mappers.ProtoNavigationLinkMapperV1] = ServiceRegistration
                 .Scoped<IMapper<INavigationLink, Proto.Services.Navigation.V1.ProtoNavigationLink>, ProtoNavigationLinkMapper>(),
         };
 
         public INavigationServiceComponent OverrideProtoNavigationMapperV1<T>() where T : IMapper<INavigation, Proto.Services.Navigation.V1.ProtoNavigation>
         {
-            _mappers[Mappers.OverrideProtoNavigationMapperV1].ImplementationType = typeof(T);
+            _mappers[Mappers.ProtoNavigationMapperV1].ImplementationType = typeof(T);
             return this;
         }
 
         public INavigationServiceComponent OverrideProtoNavigationLinkMapperV1<T>() where T : IMapper<INavigationLink, Proto.Services.Navigation.V1.ProtoNavigationLink>
         {
-            _mappers[Mappers.OverrideProtoNavigationLinkMapperV1].ImplementationType = typeof(T);
+            _mappers[Mappers.ProtoNavigationLinkMapperV1].ImplementationType = typeof(T);
             return this;
         }
         #endregion Mappers
