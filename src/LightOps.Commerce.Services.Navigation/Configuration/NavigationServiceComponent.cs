@@ -36,8 +36,8 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
 
         private readonly Dictionary<Services, ServiceRegistration> _services = new Dictionary<Services, ServiceRegistration>
         {
-            [Services.HealthService] = ServiceRegistration.Scoped<IHealthService, HealthService>(),
-            [Services.NavigationService] = ServiceRegistration.Scoped<INavigationService, NavigationService>(),
+            [Services.HealthService] = ServiceRegistration.Transient<IHealthService, HealthService>(),
+            [Services.NavigationService] = ServiceRegistration.Transient<INavigationService, NavigationService>(),
         };
 
         public INavigationServiceComponent OverrideHealthService<T>()
@@ -65,9 +65,9 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
         private readonly Dictionary<Mappers, ServiceRegistration> _mappers = new Dictionary<Mappers, ServiceRegistration>
         {
             [Mappers.ProtoNavigationMapperV1] = ServiceRegistration
-                .Scoped<IMapper<INavigation, Proto.Services.Navigation.V1.ProtoNavigation>, ProtoNavigationMapper>(),
+                .Transient<IMapper<INavigation, Proto.Services.Navigation.V1.ProtoNavigation>, ProtoNavigationMapper>(),
             [Mappers.ProtoNavigationLinkMapperV1] = ServiceRegistration
-                .Scoped<IMapper<INavigationLink, Proto.Services.Navigation.V1.ProtoNavigationLink>, ProtoNavigationLinkMapper>(),
+                .Transient<IMapper<INavigationLink, Proto.Services.Navigation.V1.ProtoNavigationLink>, ProtoNavigationLinkMapper>(),
         };
 
         public INavigationServiceComponent OverrideProtoNavigationMapperV1<T>() where T : IMapper<INavigation, Proto.Services.Navigation.V1.ProtoNavigation>
@@ -95,11 +95,11 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
 
         private readonly Dictionary<QueryHandlers, ServiceRegistration> _queryHandlers = new Dictionary<QueryHandlers, ServiceRegistration>
         {
-            [QueryHandlers.CheckNavigationHealthQueryHandler] = ServiceRegistration.Scoped<IQueryHandler<CheckNavigationHealthQuery, HealthStatus>>(),
-            [QueryHandlers.FetchNavigationsByParentIdQueryHandler] = ServiceRegistration.Scoped<IQueryHandler<FetchNavigationsByParentIdQuery, IList<INavigation>>>(),
-            [QueryHandlers.FetchNavigationsByRootQueryHandler] = ServiceRegistration.Scoped<IQueryHandler<FetchNavigationsByRootQuery, IList<INavigation>>>(),
-            [QueryHandlers.FetchNavigationByHandleQueryHandler] = ServiceRegistration.Scoped<IQueryHandler<FetchNavigationByHandleQuery, INavigation>>(),
-            [QueryHandlers.FetchNavigationByIdQueryHandler] = ServiceRegistration.Scoped<IQueryHandler<FetchNavigationByIdQuery, INavigation>>(),
+            [QueryHandlers.CheckNavigationHealthQueryHandler] = ServiceRegistration.Transient<IQueryHandler<CheckNavigationHealthQuery, HealthStatus>>(),
+            [QueryHandlers.FetchNavigationsByParentIdQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationsByParentIdQuery, IList<INavigation>>>(),
+            [QueryHandlers.FetchNavigationsByRootQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationsByRootQuery, IList<INavigation>>>(),
+            [QueryHandlers.FetchNavigationByHandleQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationByHandleQuery, INavigation>>(),
+            [QueryHandlers.FetchNavigationByIdQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationByIdQuery, INavigation>>(),
         };
 
         public INavigationServiceComponent OverrideCheckNavigationHealthQueryHandler<T>() where T : ICheckNavigationHealthQueryHandler
