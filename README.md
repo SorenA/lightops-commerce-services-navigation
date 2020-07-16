@@ -107,6 +107,8 @@ public interface INavigationServiceComponent
     INavigationServiceComponent OverrideCheckNavigationHealthQueryHandler<T>() where T : ICheckNavigationHealthQueryHandler;
     INavigationServiceComponent OverrideFetchNavigationsByParentIdQueryHandler<T>() where T : IFetchNavigationsByParentIdQueryHandler;
     INavigationServiceComponent OverrideFetchNavigationsByRootQueryHandler<T>() where T : IFetchNavigationsByRootQueryHandler;
+    INavigationServiceComponent OverrideFetchNavigationsByHandleQueryHandler<T>() where T : IFetchNavigationsByHandleQueryHandler;
+    INavigationServiceComponent OverrideFetchNavigationsByIdQueryHandler<T>() where T : IFetchNavigationsByIdQueryHandler;
     INavigationServiceComponent OverrideFetchNavigationByHandleQueryHandler<T>() where T : IFetchNavigationByHandleQueryHandler;
     INavigationServiceComponent OverrideFetchNavigationByIdQueryHandler<T>() where T : IFetchNavigationByIdQueryHandler;
     #endregion Query Handlers
