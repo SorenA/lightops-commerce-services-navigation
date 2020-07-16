@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Grpc.Core;
 using LightOps.Commerce.Proto.Services.Navigation.V1;
 using LightOps.Commerce.Services.Navigation.Api.Models;
@@ -45,6 +46,28 @@ namespace LightOps.Commerce.Services.Navigation.Domain.Services.V1
             {
                 Navigation = protoEntity,
             };
+
+            return result;
+        }
+
+        public override async Task<GetNavigationsByIdResponse> GetNavigationsById(GetNavigationsByIdRequest request, ServerCallContext context)
+        {
+            var entities = await _navigationService.GetByIdAsync(request.Ids);
+            var protoEntities = _mappingService.Map<INavigation, ProtoNavigation>(entities);
+
+            var result = new GetNavigationsByIdResponse();
+            result.Navigations.AddRange(protoEntities);
+
+            return result;
+        }
+
+        public override async Task<GetNavigationsByHandleResponse> GetNavigationsByHandle(GetNavigationsByHandleRequest request, ServerCallContext context)
+        {
+            var entities = await _navigationService.GetByHandleAsync(request.Handles);
+            var protoEntities = _mappingService.Map<INavigation, ProtoNavigation>(entities);
+
+            var result = new GetNavigationsByHandleResponse();
+            result.Navigations.AddRange(protoEntities);
 
             return result;
         }
