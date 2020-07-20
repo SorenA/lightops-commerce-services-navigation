@@ -50,34 +50,23 @@ namespace LightOps.Commerce.Services.Navigation.Domain.Services.V1
             return result;
         }
 
-        public override async Task<GetNavigationsByIdResponse> GetNavigationsById(GetNavigationsByIdRequest request, ServerCallContext context)
+        public override async Task<GetNavigationsByIdsResponse> GetNavigationsByIds(GetNavigationsByIdsRequest request, ServerCallContext context)
         {
             var entities = await _navigationService.GetByIdAsync(request.Ids);
             var protoEntities = _mappingService.Map<INavigation, ProtoNavigation>(entities);
 
-            var result = new GetNavigationsByIdResponse();
+            var result = new GetNavigationsByIdsResponse();
             result.Navigations.AddRange(protoEntities);
 
             return result;
         }
 
-        public override async Task<GetNavigationsByHandleResponse> GetNavigationsByHandle(GetNavigationsByHandleRequest request, ServerCallContext context)
+        public override async Task<GetNavigationsByHandlesResponse> GetNavigationsByHandles(GetNavigationsByHandlesRequest request, ServerCallContext context)
         {
             var entities = await _navigationService.GetByHandleAsync(request.Handles);
             var protoEntities = _mappingService.Map<INavigation, ProtoNavigation>(entities);
 
-            var result = new GetNavigationsByHandleResponse();
-            result.Navigations.AddRange(protoEntities);
-
-            return result;
-        }
-
-        public override async Task<ProtoGetNavigationsByRootResponse> GetNavigationsByRoot(ProtoGetNavigationsByRootRequest request, ServerCallContext context)
-        {
-            var entities = await _navigationService.GetByRootAsync();
-            var protoEntities = _mappingService.Map<INavigation, ProtoNavigation>(entities);
-
-            var result = new ProtoGetNavigationsByRootResponse();
+            var result = new GetNavigationsByHandlesResponse();
             result.Navigations.AddRange(protoEntities);
 
             return result;
@@ -89,6 +78,28 @@ namespace LightOps.Commerce.Services.Navigation.Domain.Services.V1
             var protoEntities = _mappingService.Map<INavigation, ProtoNavigation>(entities);
 
             var result = new ProtoGetNavigationsByParentIdResponse();
+            result.Navigations.AddRange(protoEntities);
+
+            return result;
+        }
+
+        public override async Task<ProtoGetNavigationsByParentIdsResponse> GetNavigationsByParentIds(ProtoGetNavigationsByParentIdsRequest request, ServerCallContext context)
+        {
+            var entities = await _navigationService.GetByParentIdAsync(request.ParentIds);
+            var protoEntities = _mappingService.Map<INavigation, ProtoNavigation>(entities);
+
+            var result = new ProtoGetNavigationsByParentIdsResponse();
+            result.Navigations.AddRange(protoEntities);
+
+            return result;
+        }
+
+        public override async Task<ProtoGetNavigationsByRootResponse> GetNavigationsByRoot(ProtoGetNavigationsByRootRequest request, ServerCallContext context)
+        {
+            var entities = await _navigationService.GetByRootAsync();
+            var protoEntities = _mappingService.Map<INavigation, ProtoNavigation>(entities);
+
+            var result = new ProtoGetNavigationsByRootResponse();
             result.Navigations.AddRange(protoEntities);
 
             return result;
