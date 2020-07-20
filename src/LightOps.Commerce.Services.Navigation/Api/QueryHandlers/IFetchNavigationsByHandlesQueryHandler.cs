@@ -5,7 +5,7 @@ using LightOps.CQRS.Api.Queries;
 
 namespace LightOps.Commerce.Services.Navigation.Api.QueryHandlers
 {
-    public interface IFetchNavigationsByHandleQueryHandler : IQueryHandler<FetchNavigationsByHandleQuery, IList<INavigation>>
+    public interface IFetchNavigationsByHandlesQueryHandler : IQueryHandler<FetchNavigationsByHandlesQuery, IList<INavigation>>
     {
 
     }

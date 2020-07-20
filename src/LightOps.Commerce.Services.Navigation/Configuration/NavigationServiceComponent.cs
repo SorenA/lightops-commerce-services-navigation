@@ -89,8 +89,8 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
             CheckNavigationHealthQueryHandler,
             FetchNavigationsByParentIdQueryHandler,
             FetchNavigationsByRootQueryHandler,
-            FetchNavigationsByHandleQueryHandler,
-            FetchNavigationsByIdQueryHandler,
+            FetchNavigationsByHandlesQueryHandler,
+            FetchNavigationsByIdsQueryHandler,
             FetchNavigationByHandleQueryHandler,
             FetchNavigationByIdQueryHandler,
         }
@@ -100,8 +100,8 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
             [QueryHandlers.CheckNavigationHealthQueryHandler] = ServiceRegistration.Transient<IQueryHandler<CheckNavigationHealthQuery, HealthStatus>>(),
             [QueryHandlers.FetchNavigationsByParentIdQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationsByParentIdQuery, IList<INavigation>>>(),
             [QueryHandlers.FetchNavigationsByRootQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationsByRootQuery, IList<INavigation>>>(),
-            [QueryHandlers.FetchNavigationsByHandleQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationsByHandleQuery, IList<INavigation>>>(),
-            [QueryHandlers.FetchNavigationsByIdQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationsByIdQuery, IList<INavigation>>>(),
+            [QueryHandlers.FetchNavigationsByHandlesQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationsByHandlesQuery, IList<INavigation>>>(),
+            [QueryHandlers.FetchNavigationsByIdsQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationsByIdsQuery, IList<INavigation>>>(),
             [QueryHandlers.FetchNavigationByHandleQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationByHandleQuery, INavigation>>(),
             [QueryHandlers.FetchNavigationByIdQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationByIdQuery, INavigation>>(),
         };
@@ -124,15 +124,15 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
             return this;
         }
 
-        public INavigationServiceComponent OverrideFetchNavigationsByHandleQueryHandler<T>() where T : IFetchNavigationsByHandleQueryHandler
+        public INavigationServiceComponent OverrideFetchNavigationsByHandlesQueryHandler<T>() where T : IFetchNavigationsByHandlesQueryHandler
         {
-            _queryHandlers[QueryHandlers.FetchNavigationsByHandleQueryHandler].ImplementationType = typeof(T);
+            _queryHandlers[QueryHandlers.FetchNavigationsByHandlesQueryHandler].ImplementationType = typeof(T);
             return this;
         }
 
-        public INavigationServiceComponent OverrideFetchNavigationsByIdQueryHandler<T>() where T : IFetchNavigationsByIdQueryHandler
+        public INavigationServiceComponent OverrideFetchNavigationsByIdsQueryHandler<T>() where T : IFetchNavigationsByIdsQueryHandler
         {
-            _queryHandlers[QueryHandlers.FetchNavigationsByIdQueryHandler].ImplementationType = typeof(T);
+            _queryHandlers[QueryHandlers.FetchNavigationsByIdsQueryHandler].ImplementationType = typeof(T);
             return this;
         }
 

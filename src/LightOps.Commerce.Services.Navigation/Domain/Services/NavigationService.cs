@@ -34,7 +34,7 @@ namespace LightOps.Commerce.Services.Navigation.Domain.Services
 
         public Task<IList<INavigation>> GetByIdAsync(IList<string> ids)
         {
-            return _queryDispatcher.DispatchAsync<FetchNavigationsByIdQuery, IList<INavigation>>(new FetchNavigationsByIdQuery
+            return _queryDispatcher.DispatchAsync<FetchNavigationsByIdsQuery, IList<INavigation>>(new FetchNavigationsByIdsQuery
             {
                 Ids = ids,
             });
@@ -42,7 +42,7 @@ namespace LightOps.Commerce.Services.Navigation.Domain.Services
 
         public Task<IList<INavigation>> GetByHandleAsync(IList<string> handles)
         {
-            return _queryDispatcher.DispatchAsync<FetchNavigationsByHandleQuery, IList<INavigation>>(new FetchNavigationsByHandleQuery
+            return _queryDispatcher.DispatchAsync<FetchNavigationsByHandlesQuery, IList<INavigation>>(new FetchNavigationsByHandlesQuery
             {
                 Handles = handles,
             });

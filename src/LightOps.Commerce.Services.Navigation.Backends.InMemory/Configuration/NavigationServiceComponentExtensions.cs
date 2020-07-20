@@ -25,8 +25,8 @@ namespace LightOps.Commerce.Services.Navigation.Backends.InMemory.Configuration
                 .OverrideCheckNavigationHealthQueryHandler<CheckNavigationHealthQueryHandler>()
                 .OverrideFetchNavigationsByParentIdQueryHandler<FetchNavigationsByParentIdQueryHandler>()
                 .OverrideFetchNavigationsByRootQueryHandler<FetchNavigationsByRootQueryHandler>()
-                .OverrideFetchNavigationsByHandleQueryHandler<FetchNavigationsByHandleQueryHandler>()
-                .OverrideFetchNavigationsByIdQueryHandler<FetchNavigationsByIdQueryHandler>()
+                .OverrideFetchNavigationsByHandlesQueryHandler<FetchNavigationsByHandlesQueryHandler>()
+                .OverrideFetchNavigationsByIdsQueryHandler<FetchNavigationsByIdsQueryHandler>()
                 .OverrideFetchNavigationByHandleQueryHandler<FetchNavigationByHandleQueryHandler>()
                 .OverrideFetchNavigationByIdQueryHandler<FetchNavigationByIdQueryHandler>();
 

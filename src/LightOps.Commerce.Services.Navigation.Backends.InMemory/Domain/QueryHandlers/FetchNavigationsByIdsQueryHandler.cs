@@ -8,20 +8,20 @@ using LightOps.Commerce.Services.Navigation.Backends.InMemory.Api.Providers;
 
 namespace LightOps.Commerce.Services.Navigation.Backends.InMemory.Domain.QueryHandlers
 {
-    public class FetchNavigationsByHandleQueryHandler : IFetchNavigationsByHandleQueryHandler
+    public class FetchNavigationsByIdsQueryHandler : IFetchNavigationsByIdsQueryHandler
     {
         private readonly IInMemoryNavigationProvider _inMemoryNavigationProvider;
 
-        public FetchNavigationsByHandleQueryHandler(IInMemoryNavigationProvider inMemoryNavigationProvider)
+        public FetchNavigationsByIdsQueryHandler(IInMemoryNavigationProvider inMemoryNavigationProvider)
         {
             _inMemoryNavigationProvider = inMemoryNavigationProvider;
         }
-
-        public Task<IList<INavigation>> HandleAsync(FetchNavigationsByHandleQuery query)
+        
+        public Task<IList<INavigation>> HandleAsync(FetchNavigationsByIdsQuery query)
         {
             var navigations = _inMemoryNavigationProvider
                 .Navigations
-                .Where(c => query.Handles.Contains(c.Handle))
+                .Where(c => query.Ids.Contains(c.Id))
                 .ToList();
 
             return Task.FromResult<IList<INavigation>>(navigations);
