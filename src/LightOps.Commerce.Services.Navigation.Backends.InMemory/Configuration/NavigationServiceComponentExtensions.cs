@@ -28,6 +28,7 @@ namespace LightOps.Commerce.Services.Navigation.Backends.InMemory.Configuration
                 .OverrideFetchNavigationsByHandlesQueryHandler<FetchNavigationsByHandlesQueryHandler>()
                 .OverrideFetchNavigationByHandleQueryHandler<FetchNavigationByHandleQueryHandler>()
                 .OverrideFetchNavigationsByParentIdQueryHandler<FetchNavigationsByParentIdQueryHandler>()
+                .OverrideFetchNavigationsByParentIdsQueryHandler<FetchNavigationsByParentIdsQueryHandler>()
                 .OverrideFetchNavigationsByRootQueryHandler<FetchNavigationsByRootQueryHandler>();
 
             return serviceComponent;

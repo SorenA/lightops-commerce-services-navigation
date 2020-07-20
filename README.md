@@ -113,6 +113,7 @@ public interface INavigationServiceComponent
     INavigationServiceComponent OverrideFetchNavigationsByHandlesQueryHandler<T>() where T : IFetchNavigationsByHandlesQueryHandler;
 
     INavigationServiceComponent OverrideFetchNavigationsByParentIdQueryHandler<T>() where T : IFetchNavigationsByParentIdQueryHandler;
+    INavigationServiceComponent OverrideFetchNavigationsByParentIdsQueryHandler<T>() where T : IFetchNavigationsByParentIdsQueryHandler;
 
     INavigationServiceComponent OverrideFetchNavigationsByRootQueryHandler<T>() where T : IFetchNavigationsByRootQueryHandler;
     #endregion Query Handlers

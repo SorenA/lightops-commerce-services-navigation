@@ -13,6 +13,7 @@ namespace LightOps.Commerce.Services.Navigation.Api.Services
         Task<IList<INavigation>> GetByHandleAsync(IList<string> handles);
 
         Task<IList<INavigation>> GetByParentIdAsync(string parentId);
+        Task<IList<INavigation>> GetByParentIdAsync(IList<string> parentIds);
 
         Task<IList<INavigation>> GetByRootAsync();
     }

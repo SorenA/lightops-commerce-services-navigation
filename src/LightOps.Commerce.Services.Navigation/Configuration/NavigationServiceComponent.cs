@@ -95,6 +95,7 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
             FetchNavigationsByHandlesQueryHandler,
 
             FetchNavigationsByParentIdQueryHandler,
+            FetchNavigationsByParentIdsQueryHandler,
 
             FetchNavigationsByRootQueryHandler,
         }
@@ -110,6 +111,7 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
             [QueryHandlers.FetchNavigationsByHandlesQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationsByHandlesQuery, IList<INavigation>>>(),
 
             [QueryHandlers.FetchNavigationsByParentIdQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationsByParentIdQuery, IList<INavigation>>>(),
+            [QueryHandlers.FetchNavigationsByParentIdsQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationsByParentIdsQuery, IList<INavigation>>>(),
 
             [QueryHandlers.FetchNavigationsByRootQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationsByRootQuery, IList<INavigation>>>(),
         };
@@ -147,6 +149,12 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
         public INavigationServiceComponent OverrideFetchNavigationsByParentIdQueryHandler<T>() where T : IFetchNavigationsByParentIdQueryHandler
         {
             _queryHandlers[QueryHandlers.FetchNavigationsByParentIdQueryHandler].ImplementationType = typeof(T);
+            return this;
+        }
+
+        public INavigationServiceComponent OverrideFetchNavigationsByParentIdsQueryHandler<T>() where T : IFetchNavigationsByParentIdsQueryHandler
+        {
+            _queryHandlers[QueryHandlers.FetchNavigationsByParentIdsQueryHandler].ImplementationType = typeof(T);
             return this;
         }
 
