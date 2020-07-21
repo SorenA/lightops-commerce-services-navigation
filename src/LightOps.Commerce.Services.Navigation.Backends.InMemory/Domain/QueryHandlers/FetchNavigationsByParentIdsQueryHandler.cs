@@ -21,7 +21,9 @@ namespace LightOps.Commerce.Services.Navigation.Backends.InMemory.Domain.QueryHa
         {
             var navigations = _inMemoryNavigationProvider
                 .Navigations
-                .Where(c => query.ParentIds.Contains(c.ParentNavigationId))
+                .Where(c =>
+                    !string.IsNullOrEmpty(c.ParentNavigationId)
+                    && query.ParentIds.Contains(c.ParentNavigationId))
                 .ToList();
 
             return Task.FromResult<IList<INavigation>>(navigations);
