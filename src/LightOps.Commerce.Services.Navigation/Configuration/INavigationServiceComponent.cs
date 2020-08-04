@@ -1,4 +1,5 @@
-﻿using LightOps.Commerce.Services.Navigation.Api.Models;
+﻿using LightOps.Commerce.Proto.Types;
+using LightOps.Commerce.Services.Navigation.Api.Models;
 using LightOps.Commerce.Services.Navigation.Api.QueryHandlers;
 using LightOps.Commerce.Services.Navigation.Api.Services;
 using LightOps.Mapping.Api.Mappers;
@@ -13,23 +14,16 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
         #endregion Services
 
         #region Mappers
-        INavigationServiceComponent OverrideProtoNavigationMapperV1<T>() where T : IMapper<INavigation, Proto.Services.Navigation.V1.ProtoNavigation>;
-        INavigationServiceComponent OverrideProtoNavigationLinkMapperV1<T>() where T : IMapper<INavigationLink, Proto.Services.Navigation.V1.ProtoNavigationLink>;
+        INavigationServiceComponent OverrideNavigationProtoMapper<T>() where T : IMapper<INavigation, NavigationProto>;
+        INavigationServiceComponent OverrideSubNavigationProtoMapper<T>() where T : IMapper<ISubNavigation, SubNavigationProto>;
+        INavigationServiceComponent OverrideNavigationLinkProtoMapper<T>() where T : IMapper<INavigationLink, NavigationLinkProto>;
         #endregion Mappers
 
         #region Query Handlers
         INavigationServiceComponent OverrideCheckNavigationHealthQueryHandler<T>() where T : ICheckNavigationHealthQueryHandler;
 
-        INavigationServiceComponent OverrideFetchNavigationByIdQueryHandler<T>() where T : IFetchNavigationByIdQueryHandler;
-        INavigationServiceComponent OverrideFetchNavigationsByIdsQueryHandler<T>() where T : IFetchNavigationsByIdsQueryHandler;
-
-        INavigationServiceComponent OverrideFetchNavigationByHandleQueryHandler<T>() where T : IFetchNavigationByHandleQueryHandler;
         INavigationServiceComponent OverrideFetchNavigationsByHandlesQueryHandler<T>() where T : IFetchNavigationsByHandlesQueryHandler;
-
-        INavigationServiceComponent OverrideFetchNavigationsByParentIdQueryHandler<T>() where T : IFetchNavigationsByParentIdQueryHandler;
-        INavigationServiceComponent OverrideFetchNavigationsByParentIdsQueryHandler<T>() where T : IFetchNavigationsByParentIdsQueryHandler;
-
-        INavigationServiceComponent OverrideFetchNavigationsByRootQueryHandler<T>() where T : IFetchNavigationsByRootQueryHandler;
+        INavigationServiceComponent OverrideFetchNavigationsByIdsQueryHandler<T>() where T : IFetchNavigationsByIdsQueryHandler;
         #endregion Query Handlers
     }
 }

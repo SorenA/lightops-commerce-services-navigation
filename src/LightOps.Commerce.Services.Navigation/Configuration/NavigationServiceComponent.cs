@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LightOps.Commerce.Proto.Types;
 using LightOps.Commerce.Services.Navigation.Api.Models;
 using LightOps.Commerce.Services.Navigation.Api.Queries;
 using LightOps.Commerce.Services.Navigation.Api.QueryHandlers;
 using LightOps.Commerce.Services.Navigation.Api.Services;
-using LightOps.Commerce.Services.Navigation.Domain.Mappers.V1;
+using LightOps.Commerce.Services.Navigation.Domain.Mappers;
 using LightOps.Commerce.Services.Navigation.Domain.Services;
 using LightOps.CQRS.Api.Queries;
 using LightOps.DependencyInjection.Api.Configuration;
@@ -58,27 +59,33 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
         #region Mappers
         internal enum Mappers
         {
-            ProtoNavigationMapperV1,
-            ProtoNavigationLinkMapperV1,
+            NavigationProtoMapper,
+            SubNavigationProtoMapper,
+            NavigationLinkProtoMapper
         }
 
         private readonly Dictionary<Mappers, ServiceRegistration> _mappers = new Dictionary<Mappers, ServiceRegistration>
         {
-            [Mappers.ProtoNavigationMapperV1] = ServiceRegistration
-                .Transient<IMapper<INavigation, Proto.Services.Navigation.V1.ProtoNavigation>, ProtoNavigationMapper>(),
-            [Mappers.ProtoNavigationLinkMapperV1] = ServiceRegistration
-                .Transient<IMapper<INavigationLink, Proto.Services.Navigation.V1.ProtoNavigationLink>, ProtoNavigationLinkMapper>(),
+            [Mappers.NavigationProtoMapper] = ServiceRegistration.Transient<IMapper<INavigation, NavigationProto>, NavigationProtoMapper>(),
+            [Mappers.SubNavigationProtoMapper] = ServiceRegistration.Transient<IMapper<ISubNavigation, SubNavigationProto>, SubNavigationProtoMapper>(),
+            [Mappers.NavigationLinkProtoMapper] = ServiceRegistration.Transient<IMapper<INavigationLink, NavigationLinkProto>, NavigationLinkProtoMapper>(),
         };
 
-        public INavigationServiceComponent OverrideProtoNavigationMapperV1<T>() where T : IMapper<INavigation, Proto.Services.Navigation.V1.ProtoNavigation>
+        public INavigationServiceComponent OverrideNavigationProtoMapper<T>() where T : IMapper<INavigation, NavigationProto>
         {
-            _mappers[Mappers.ProtoNavigationMapperV1].ImplementationType = typeof(T);
+            _mappers[Mappers.NavigationProtoMapper].ImplementationType = typeof(T);
             return this;
         }
 
-        public INavigationServiceComponent OverrideProtoNavigationLinkMapperV1<T>() where T : IMapper<INavigationLink, Proto.Services.Navigation.V1.ProtoNavigationLink>
+        public INavigationServiceComponent OverrideSubNavigationProtoMapper<T>() where T : IMapper<ISubNavigation, SubNavigationProto>
         {
-            _mappers[Mappers.ProtoNavigationLinkMapperV1].ImplementationType = typeof(T);
+            _mappers[Mappers.SubNavigationProtoMapper].ImplementationType = typeof(T);
+            return this;
+        }
+
+        public INavigationServiceComponent OverrideNavigationLinkProtoMapper<T>() where T : IMapper<INavigationLink, NavigationLinkProto>
+        {
+            _mappers[Mappers.NavigationLinkProtoMapper].ImplementationType = typeof(T);
             return this;
         }
         #endregion Mappers
@@ -88,55 +95,21 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
         {
             CheckNavigationHealthQueryHandler,
 
-            FetchNavigationByIdQueryHandler,
-            FetchNavigationsByIdsQueryHandler,
-
-            FetchNavigationByHandleQueryHandler,
             FetchNavigationsByHandlesQueryHandler,
-
-            FetchNavigationsByParentIdQueryHandler,
-            FetchNavigationsByParentIdsQueryHandler,
-
-            FetchNavigationsByRootQueryHandler,
+            FetchNavigationsByIdsQueryHandler,
         }
 
         private readonly Dictionary<QueryHandlers, ServiceRegistration> _queryHandlers = new Dictionary<QueryHandlers, ServiceRegistration>
         {
             [QueryHandlers.CheckNavigationHealthQueryHandler] = ServiceRegistration.Transient<IQueryHandler<CheckNavigationHealthQuery, HealthStatus>>(),
 
-            [QueryHandlers.FetchNavigationByIdQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationByIdQuery, INavigation>>(),
-            [QueryHandlers.FetchNavigationsByIdsQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationsByIdsQuery, IList<INavigation>>>(),
-
-            [QueryHandlers.FetchNavigationByHandleQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationByHandleQuery, INavigation>>(),
             [QueryHandlers.FetchNavigationsByHandlesQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationsByHandlesQuery, IList<INavigation>>>(),
-
-            [QueryHandlers.FetchNavigationsByParentIdQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationsByParentIdQuery, IList<INavigation>>>(),
-            [QueryHandlers.FetchNavigationsByParentIdsQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationsByParentIdsQuery, IList<INavigation>>>(),
-
-            [QueryHandlers.FetchNavigationsByRootQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationsByRootQuery, IList<INavigation>>>(),
+            [QueryHandlers.FetchNavigationsByIdsQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationsByIdsQuery, IList<INavigation>>>(),
         };
 
         public INavigationServiceComponent OverrideCheckNavigationHealthQueryHandler<T>() where T : ICheckNavigationHealthQueryHandler
         {
             _queryHandlers[QueryHandlers.CheckNavigationHealthQueryHandler].ImplementationType = typeof(T);
-            return this;
-        }
-
-        public INavigationServiceComponent OverrideFetchNavigationByIdQueryHandler<T>() where T : IFetchNavigationByIdQueryHandler
-        {
-            _queryHandlers[QueryHandlers.FetchNavigationByIdQueryHandler].ImplementationType = typeof(T);
-            return this;
-        }
-
-        public INavigationServiceComponent OverrideFetchNavigationsByIdsQueryHandler<T>() where T : IFetchNavigationsByIdsQueryHandler
-        {
-            _queryHandlers[QueryHandlers.FetchNavigationsByIdsQueryHandler].ImplementationType = typeof(T);
-            return this;
-        }
-
-        public INavigationServiceComponent OverrideFetchNavigationByHandleQueryHandler<T>() where T : IFetchNavigationByHandleQueryHandler
-        {
-            _queryHandlers[QueryHandlers.FetchNavigationByHandleQueryHandler].ImplementationType = typeof(T);
             return this;
         }
 
@@ -146,21 +119,9 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
             return this;
         }
 
-        public INavigationServiceComponent OverrideFetchNavigationsByParentIdQueryHandler<T>() where T : IFetchNavigationsByParentIdQueryHandler
+        public INavigationServiceComponent OverrideFetchNavigationsByIdsQueryHandler<T>() where T : IFetchNavigationsByIdsQueryHandler
         {
-            _queryHandlers[QueryHandlers.FetchNavigationsByParentIdQueryHandler].ImplementationType = typeof(T);
-            return this;
-        }
-
-        public INavigationServiceComponent OverrideFetchNavigationsByParentIdsQueryHandler<T>() where T : IFetchNavigationsByParentIdsQueryHandler
-        {
-            _queryHandlers[QueryHandlers.FetchNavigationsByParentIdsQueryHandler].ImplementationType = typeof(T);
-            return this;
-        }
-
-        public INavigationServiceComponent OverrideFetchNavigationsByRootQueryHandler<T>() where T : IFetchNavigationsByRootQueryHandler
-        {
-            _queryHandlers[QueryHandlers.FetchNavigationsByRootQueryHandler].ImplementationType = typeof(T);
+            _queryHandlers[QueryHandlers.FetchNavigationsByIdsQueryHandler].ImplementationType = typeof(T);
             return this;
         }
         #endregion Query Handlers

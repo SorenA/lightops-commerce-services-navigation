@@ -16,11 +16,11 @@ namespace LightOps.Commerce.Services.Navigation.Domain.Services
             _queryDispatcher = queryDispatcher;
         }
 
-        public Task<INavigation> GetByIdAsync(string id)
+        public Task<IList<INavigation>> GetByHandleAsync(IList<string> handles)
         {
-            return _queryDispatcher.DispatchAsync<FetchNavigationByIdQuery, INavigation>(new FetchNavigationByIdQuery
+            return _queryDispatcher.DispatchAsync<FetchNavigationsByHandlesQuery, IList<INavigation>>(new FetchNavigationsByHandlesQuery
             {
-                Id = id,
+                Handles = handles,
             });
         }
 
@@ -30,43 +30,6 @@ namespace LightOps.Commerce.Services.Navigation.Domain.Services
             {
                 Ids = ids,
             });
-        }
-
-        public Task<INavigation> GetByHandleAsync(string handle)
-        {
-            return _queryDispatcher.DispatchAsync<FetchNavigationByHandleQuery, INavigation>(new FetchNavigationByHandleQuery
-            {
-                Handle = handle,
-            });
-        }
-
-        public Task<IList<INavigation>> GetByHandleAsync(IList<string> handles)
-        {
-            return _queryDispatcher.DispatchAsync<FetchNavigationsByHandlesQuery, IList<INavigation>>(new FetchNavigationsByHandlesQuery
-            {
-                Handles = handles,
-            });
-        }
-
-        public Task<IList<INavigation>> GetByParentIdAsync(string parentId)
-        {
-            return _queryDispatcher.DispatchAsync<FetchNavigationsByParentIdQuery, IList<INavigation>>(new FetchNavigationsByParentIdQuery
-            {
-                ParentId = parentId,
-            });
-        }
-
-        public Task<IList<INavigation>> GetByParentIdAsync(IList<string> parentIds)
-        {
-            return _queryDispatcher.DispatchAsync<FetchNavigationsByParentIdsQuery, IList<INavigation>>(new FetchNavigationsByParentIdsQuery
-            {
-                ParentIds = parentIds,
-            });
-        }
-
-        public Task<IList<INavigation>> GetByRootAsync()
-        {
-            return _queryDispatcher.DispatchAsync<FetchNavigationsByRootQuery, IList<INavigation>>(new FetchNavigationsByRootQuery());
         }
     }
 }
