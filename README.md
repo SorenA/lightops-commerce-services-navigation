@@ -17,9 +17,9 @@ Provides gRPC services for integrations into other services.
 
 Protobuf service definitions located at [SorenA/lightops-commerce-proto](https://github.com/SorenA/lightops-commerce-proto).
 
-Navigation v1 is implemented in `Domain.Services.V1.NavigationGrpcService`.
+Navigation is implemented in `Domain.Services.Grpc.NavigationGrpcService`.
 
-Health v1 is implemented in `Domain.Services.V1.HealthGrpcService`.
+Health is implemented in `Domain.Services.Grpc.HealthGrpcService`.
 
 ### Health-check
 
@@ -29,7 +29,7 @@ Available services are as follows
 
 ```bash
 service = '' - System as a whole
-service = 'service.navigation.v1.ProtoNavigationService' - Navigation v1
+service = 'lightops.service.NavigationProtoService' - Navigation v1
 ```
 
 For embedding a gRPC client for use with Kubernetes, see [grpc-ecosystem/grpc-health-probe](https://github.com/grpc-ecosystem/grpc-health-probe)
@@ -99,23 +99,16 @@ public interface INavigationServiceComponent
     #endregion Services
 
     #region Mappers
-    INavigationServiceComponent OverrideProtoNavigationMapperV1<T>() where T : IMapper<INavigation, Proto.Services.Navigation.V1.ProtoNavigation>;
-    INavigationServiceComponent OverrideProtoNavigationLinkMapperV1<T>() where T : IMapper<INavigationLink, Proto.Services.Navigation.V1.ProtoNavigationLink>;
+    INavigationServiceComponent OverrideNavigationProtoMapper<T>() where T : IMapper<INavigation, NavigationProto>;
+    INavigationServiceComponent OverrideSubNavigationProtoMapper<T>() where T : IMapper<ISubNavigation, SubNavigationProto>;
+    INavigationServiceComponent OverrideNavigationLinkProtoMapper<T>() where T : IMapper<INavigationLink, NavigationLinkProto>;
     #endregion Mappers
 
     #region Query Handlers
     INavigationServiceComponent OverrideCheckNavigationHealthQueryHandler<T>() where T : ICheckNavigationHealthQueryHandler;
 
-    INavigationServiceComponent OverrideFetchNavigationByIdQueryHandler<T>() where T : IFetchNavigationByIdQueryHandler;
-    INavigationServiceComponent OverrideFetchNavigationsByIdsQueryHandler<T>() where T : IFetchNavigationsByIdsQueryHandler;
-
-    INavigationServiceComponent OverrideFetchNavigationByHandleQueryHandler<T>() where T : IFetchNavigationByHandleQueryHandler;
     INavigationServiceComponent OverrideFetchNavigationsByHandlesQueryHandler<T>() where T : IFetchNavigationsByHandlesQueryHandler;
-
-    INavigationServiceComponent OverrideFetchNavigationsByParentIdQueryHandler<T>() where T : IFetchNavigationsByParentIdQueryHandler;
-    INavigationServiceComponent OverrideFetchNavigationsByParentIdsQueryHandler<T>() where T : IFetchNavigationsByParentIdsQueryHandler;
-
-    INavigationServiceComponent OverrideFetchNavigationsByRootQueryHandler<T>() where T : IFetchNavigationsByRootQueryHandler;
+    INavigationServiceComponent OverrideFetchNavigationsByIdsQueryHandler<T>() where T : IFetchNavigationsByIdsQueryHandler;
     #endregion Query Handlers
 }
 ```
