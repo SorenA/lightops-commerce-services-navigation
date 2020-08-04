@@ -29,7 +29,7 @@ Available services are as follows
 
 ```bash
 service = '' - System as a whole
-service = 'lightops.service.NavigationProtoService' - Navigation v1
+service = 'lightops.service.NavigationProtoService' - Navigation
 ```
 
 For embedding a gRPC client for use with Kubernetes, see [grpc-ecosystem/grpc-health-probe](https://github.com/grpc-ecosystem/grpc-health-probe)
