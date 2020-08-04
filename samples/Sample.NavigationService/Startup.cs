@@ -1,7 +1,6 @@
-using LightOps.Commerce.Proto.Services.Navigation.V1;
 using LightOps.Commerce.Services.Navigation.Backends.InMemory.Configuration;
 using LightOps.Commerce.Services.Navigation.Configuration;
-using LightOps.Commerce.Services.Navigation.Domain.Services.V1;
+using LightOps.Commerce.Services.Navigation.Domain.Services.Grpc;
 using LightOps.CQRS.Configuration;
 using LightOps.DependencyInjection.Configuration;
 using LightOps.Mapping.Configuration;
@@ -29,7 +28,7 @@ namespace Sample.NavigationService
                     {
                         service.UseInMemoryBackend(root, backend =>
                         {
-                            var factory = new BogusNavigationFactory
+                            var factory = new MockDataFactory
                             {
                                 Seed = 123,
                             };
