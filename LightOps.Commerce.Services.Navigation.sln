@@ -9,9 +9,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sample.NavigationService", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightOps.Commerce.Services.Navigation", "src\LightOps.Commerce.Services.Navigation\LightOps.Commerce.Services.Navigation.csproj", "{1D0AA51E-D1B6-443B-946C-33DEE06318B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightOps.Commerce.Services.Navigation.Backends.InMemory", "src\LightOps.Commerce.Services.Navigation.Backends.InMemory\LightOps.Commerce.Services.Navigation.Backends.InMemory.csproj", "{607F3FC3-2F89-42F0-B843-A91922B3E199}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightOps.Commerce.Services.Navigation.Backends.InMemory", "src\LightOps.Commerce.Services.Navigation.Backends.InMemory\LightOps.Commerce.Services.Navigation.Backends.InMemory.csproj", "{607F3FC3-2F89-42F0-B843-A91922B3E199}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backends", "Backends", "{4027AD6A-603D-4186-BC70-EDF42CA8DFA8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{423B0679-F47A-4F63-9718-C878817D8CE4}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
+		CHANGELOG.md = CHANGELOG.md
+		nuget.config = nuget.config
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
