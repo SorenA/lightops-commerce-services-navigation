@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.1] - 2020-12-03
+
+### Changed
+
+- In-memory backend navigation provider made overridable on startup
+- In-memory query handlers now support navigation collection being null
+
 ## [0.4.0] - 2020-08-11
 
 ### Changed
@@ -63,7 +70,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Health service using CQRS for status checks
 - In-memory backend providing default query handlers
 
-[unreleased]: https://github.com/SorenA/lightops-commerce-services-navigation/compare/0.4.0...develop
+[unreleased]: https://github.com/SorenA/lightops-commerce-services-navigation/compare/0.4.1...develop
+[0.4.1]: https://github.com/SorenA/lightops-commerce-services-navigation/tree/0.4.1
 [0.4.0]: https://github.com/SorenA/lightops-commerce-services-navigation/tree/0.4.0
 [0.3.1]: https://github.com/SorenA/lightops-commerce-services-navigation/tree/0.3.1
 [0.3.0]: https://github.com/SorenA/lightops-commerce-services-navigation/tree/0.3.0
