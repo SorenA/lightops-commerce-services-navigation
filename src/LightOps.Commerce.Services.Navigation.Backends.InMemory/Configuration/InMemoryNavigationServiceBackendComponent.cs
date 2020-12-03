@@ -14,26 +14,20 @@ namespace LightOps.Commerce.Services.Navigation.Backends.InMemory.Configuration
 
         public IReadOnlyList<ServiceRegistration> GetServiceRegistrations()
         {
-            // Populate in-memory providers
-            _providers[Providers.InMemoryNavigationProvider].ImplementationInstance = new InMemoryNavigationProvider
-            {
-                Navigations = _navigations,
-            };
-
             return new List<ServiceRegistration>()
                 .Union(_providers.Values)
                 .ToList();
         }
 
         #region Entities
-        private readonly IList<INavigation> _navigations = new List<INavigation>();
-
         public IInMemoryNavigationServiceBackendComponent UseNavigations(IList<INavigation> navigations)
         {
-            foreach (var navigation in navigations)
+            // Populate in-memory providers
+            _providers[Providers.InMemoryNavigationProvider].ImplementationType = null;
+            _providers[Providers.InMemoryNavigationProvider].ImplementationInstance = new InMemoryNavigationProvider
             {
-                _navigations.Add(navigation);
-            }
+                Navigations = navigations,
+            };
 
             return this;
         }
@@ -47,8 +41,15 @@ namespace LightOps.Commerce.Services.Navigation.Backends.InMemory.Configuration
 
         private readonly Dictionary<Providers, ServiceRegistration> _providers = new Dictionary<Providers, ServiceRegistration>()
         {
-            [Providers.InMemoryNavigationProvider] = ServiceRegistration.Singleton<IInMemoryNavigationProvider>(),
+            [Providers.InMemoryNavigationProvider] = ServiceRegistration.Singleton<IInMemoryNavigationProvider, InMemoryNavigationProvider>(),
         };
+
+        public IInMemoryNavigationServiceBackendComponent OverrideNavigationProvider<T>() where T : IInMemoryNavigationProvider
+        {
+            _providers[Providers.InMemoryNavigationProvider].ImplementationInstance = null;
+            _providers[Providers.InMemoryNavigationProvider].ImplementationType = typeof(T);
+            return this;
+        }
         #endregion Providers
     }
 }

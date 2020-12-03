@@ -20,11 +20,11 @@ namespace LightOps.Commerce.Services.Navigation.Backends.InMemory.Domain.QueryHa
         public Task<IList<INavigation>> HandleAsync(FetchNavigationsByHandlesQuery query)
         {
             var navigations = _inMemoryNavigationProvider
-                .Navigations
+                .Navigations?
                 .Where(c => query.Handles.Contains(c.Handle))
                 .ToList();
 
-            return Task.FromResult<IList<INavigation>>(navigations);
+            return Task.FromResult<IList<INavigation>>(navigations ?? new List<INavigation>());
         }
     }
 }

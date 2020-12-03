@@ -6,6 +6,6 @@ namespace LightOps.Commerce.Services.Navigation.Backends.InMemory.Domain.Provide
 {
     public class InMemoryNavigationProvider : IInMemoryNavigationProvider
     {
-        public IList<INavigation> Navigations { get; internal set; }
+        public IList<INavigation> Navigations { get; internal set; } = new List<INavigation>();
     }
 }
