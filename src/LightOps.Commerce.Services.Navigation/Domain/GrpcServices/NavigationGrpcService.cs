@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Grpc.Core;
-using LightOps.Commerce.Proto.Services;
+using LightOps.Commerce.Proto.Services.Navigation;
 using LightOps.Commerce.Services.Navigation.Api.Commands;
 using LightOps.Commerce.Services.Navigation.Api.Queries;
 using LightOps.CQRS.Api.Services;
 using Microsoft.Extensions.Logging;
 
-namespace LightOps.Commerce.Services.Navigation.Domain.GprcServices
+namespace LightOps.Commerce.Services.Navigation.Domain.GrpcServices
 {
     public class NavigationGrpcService : NavigationService.NavigationServiceBase
     {

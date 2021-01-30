@@ -8,7 +8,7 @@ using LightOps.CQRS.Api.Services;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 
-namespace LightOps.Commerce.Services.Navigation.Domain.GprcServices
+namespace LightOps.Commerce.Services.Navigation.Domain.GrpcServices
 {
     public class HealthGrpcService : Health.HealthBase
     {
