@@ -17,9 +17,9 @@ Provides gRPC services for integrations into other services.
 
 Protobuf service definitions located at [SorenA/lightops-commerce-proto](https://github.com/SorenA/lightops-commerce-proto).
 
-Navigation is implemented in `Domain.Services.Grpc.NavigationGrpcService`.
+Navigation is implemented in `Domain.GrpcServices.NavigationGrpcService`.
 
-Health is implemented in `Domain.Services.Grpc.HealthGrpcService`.
+Health is implemented in `Domain.GrpcServices.HealthGrpcService`.
 
 ### Health-check
 
@@ -29,7 +29,7 @@ Available services are as follows
 
 ```bash
 service = '' - System as a whole
-service = 'lightops.service.NavigationProtoService' - Navigation
+service = 'lightops.service.NavigationService' - Navigation
 ```
 
 For embedding a gRPC client for use with Kubernetes, see [grpc-ecosystem/grpc-health-probe](https://github.com/grpc-ecosystem/grpc-health-probe)
@@ -44,7 +44,6 @@ LightOps packages available on NuGet:
 
 - `LightOps.DependencyInjection`
 - `LightOps.CQRS`
-- `LightOps.Mapping`
 
 ## Using the service component
 
@@ -54,7 +53,6 @@ Register during startup through the `AddNavigationService(options)` extension on
 services.AddLightOpsDependencyInjection(root =>
 {
     root
-        .AddMapping()
         .AddCqrs()
         .AddNavigationService(service =>
         {
@@ -78,9 +76,11 @@ app.UseEndpoints(endpoints =>
 });
 ```
 
+The gRPC services use `ICommandDispatcher` & `IQueryDispatcher` from the `LightOps.CQRS` package to dispatch commands and queries, see configuration bellow.
+
 ### Configuration options
 
-A component backend is required, defining the query handlers tied to a data-source, see **Query handlers** section bellow for more.
+A component backend is required, implementing the command & query handlers tied to a data-source, see configuration overridables bellow.
 
 A custom backend, or one of the following standard backends can be used:
 
@@ -93,29 +93,19 @@ Using the `INavigationServiceComponent` configuration, the following can be over
 ```csharp
 public interface INavigationServiceComponent
 {
-    #region Services
-    INavigationServiceComponent OverrideHealthService<T>() where T : IHealthService;
-    INavigationServiceComponent OverrideNavigationService<T>() where T : INavigationService;
-    #endregion Services
-
-    #region Mappers
-    INavigationServiceComponent OverrideNavigationProtoMapper<T>() where T : IMapper<INavigation, NavigationProto>;
-    INavigationServiceComponent OverrideSubNavigationProtoMapper<T>() where T : IMapper<ISubNavigation, SubNavigationProto>;
-    INavigationServiceComponent OverrideNavigationLinkProtoMapper<T>() where T : IMapper<INavigationLink, NavigationLinkProto>;
-    #endregion Mappers
-
     #region Query Handlers
     INavigationServiceComponent OverrideCheckNavigationServiceHealthQueryHandler<T>() where T : ICheckNavigationServiceHealthQueryHandler;
 
     INavigationServiceComponent OverrideFetchNavigationsByHandlesQueryHandler<T>() where T : IFetchNavigationsByHandlesQueryHandler;
     INavigationServiceComponent OverrideFetchNavigationsByIdsQueryHandler<T>() where T : IFetchNavigationsByIdsQueryHandler;
     #endregion Query Handlers
+
+    #region Command Handlers
+    INavigationServiceComponent OverridePersistNavigationCommandHandler<T>() where T : IPersistNavigationCommandHandler;
+    INavigationServiceComponent OverrideDeleteNavigationCommandHandler<T>() where T : IDeleteNavigationCommandHandler;
+    #endregion Command Handlers
 }
 ```
-
-`INavigationService` is used by the gRPC services and query the data using the `IQueryDispatcher` from the `LightOps.CQRS` package.
-
-The mappers are used for mapping the internal data structure to the versioned protobuf messages.
 
 ## Backend modules
 
@@ -128,7 +118,7 @@ root.AddNavigationService(service =>
 {
     service.UseInMemoryBackend(root, backend =>
     {
-        var navigations = new List<INavigation>();
+        var navigations = new List<Navigation>();
         // ...
 
         backend.UseNavigations(navigations);
