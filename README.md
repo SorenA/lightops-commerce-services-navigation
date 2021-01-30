@@ -105,7 +105,7 @@ public interface INavigationServiceComponent
     #endregion Mappers
 
     #region Query Handlers
-    INavigationServiceComponent OverrideCheckNavigationHealthQueryHandler<T>() where T : ICheckNavigationHealthQueryHandler;
+    INavigationServiceComponent OverrideCheckNavigationServiceHealthQueryHandler<T>() where T : ICheckNavigationServiceHealthQueryHandler;
 
     INavigationServiceComponent OverrideFetchNavigationsByHandlesQueryHandler<T>() where T : IFetchNavigationsByHandlesQueryHandler;
     INavigationServiceComponent OverrideFetchNavigationsByIdsQueryHandler<T>() where T : IFetchNavigationsByIdsQueryHandler;

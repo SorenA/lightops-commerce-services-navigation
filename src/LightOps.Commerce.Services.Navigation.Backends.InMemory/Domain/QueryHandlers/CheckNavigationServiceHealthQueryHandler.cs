@@ -6,16 +6,16 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace LightOps.Commerce.Services.Navigation.Backends.InMemory.Domain.QueryHandlers
 {
-    public class CheckNavigationHealthQueryHandler : ICheckNavigationHealthQueryHandler
+    public class CheckNavigationServiceHealthQueryHandler : ICheckNavigationServiceHealthQueryHandler
     {
         private readonly IInMemoryNavigationProvider _inMemoryNavigationProvider;
 
-        public CheckNavigationHealthQueryHandler(IInMemoryNavigationProvider inMemoryNavigationProvider)
+        public CheckNavigationServiceHealthQueryHandler(IInMemoryNavigationProvider inMemoryNavigationProvider)
         {
             _inMemoryNavigationProvider = inMemoryNavigationProvider;
         }
 
-        public Task<HealthStatus> HandleAsync(CheckNavigationHealthQuery query)
+        public Task<HealthStatus> HandleAsync(CheckNavigationServiceHealthQuery query)
         {
             return _inMemoryNavigationProvider.Navigations != null
                 ? Task.FromResult(HealthStatus.Healthy)

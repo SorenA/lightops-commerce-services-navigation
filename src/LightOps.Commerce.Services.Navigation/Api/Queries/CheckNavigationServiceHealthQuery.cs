@@ -2,7 +2,7 @@
 
 namespace LightOps.Commerce.Services.Navigation.Api.Queries
 {
-    public class CheckNavigationHealthQuery : IQuery
+    public class CheckNavigationServiceHealthQuery : IQuery
     {
 
     }

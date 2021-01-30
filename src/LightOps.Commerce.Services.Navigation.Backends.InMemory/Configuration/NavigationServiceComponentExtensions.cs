@@ -1,4 +1,5 @@
 ﻿using System;
+using LightOps.Commerce.Services.Navigation.Backends.InMemory.Domain.CommandHandlers;
 using LightOps.Commerce.Services.Navigation.Backends.InMemory.Domain.QueryHandlers;
 using LightOps.Commerce.Services.Navigation.Configuration;
 using LightOps.DependencyInjection.Configuration;
@@ -20,9 +21,14 @@ namespace LightOps.Commerce.Services.Navigation.Backends.InMemory.Configuration
             // Attach to root component
             rootComponent.AttachComponent(component);
 
+            // Override command handlers
+            serviceComponent
+                .OverridePersistNavigationCommandHandler<PersistNavigationCommandHandler>()
+                .OverrideDeleteNavigationCommandHandler<DeleteNavigationCommandHandler>();
+
             // Override query handlers
             serviceComponent
-                .OverrideCheckNavigationHealthQueryHandler<CheckNavigationHealthQueryHandler>()
+                .OverrideCheckNavigationServiceHealthQueryHandler<CheckNavigationServiceHealthQueryHandler>()
                 .OverrideFetchNavigationsByHandlesQueryHandler<FetchNavigationsByHandlesQueryHandler>()
                 .OverrideFetchNavigationsByIdsQueryHandler<FetchNavigationsByIdsQueryHandler>();
 

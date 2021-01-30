@@ -1,16 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using LightOps.Commerce.Proto.Types;
-using LightOps.Commerce.Services.Navigation.Api.Models;
+using LightOps.Commerce.Services.Navigation.Api.CommandHandlers;
+using LightOps.Commerce.Services.Navigation.Api.Commands;
 using LightOps.Commerce.Services.Navigation.Api.Queries;
 using LightOps.Commerce.Services.Navigation.Api.QueryHandlers;
-using LightOps.Commerce.Services.Navigation.Api.Services;
-using LightOps.Commerce.Services.Navigation.Domain.Mappers;
-using LightOps.Commerce.Services.Navigation.Domain.Services;
+using LightOps.CQRS.Api.Commands;
 using LightOps.CQRS.Api.Queries;
 using LightOps.DependencyInjection.Api.Configuration;
 using LightOps.DependencyInjection.Domain.Configuration;
-using LightOps.Mapping.Api.Mappers;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace LightOps.Commerce.Services.Navigation.Configuration
@@ -22,78 +19,15 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
         public IReadOnlyList<ServiceRegistration> GetServiceRegistrations()
         {
             return new List<ServiceRegistration>()
-                .Union(_services.Values)
-                .Union(_mappers.Values)
                 .Union(_queryHandlers.Values)
+                .Union(_commandHandlers.Values)
                 .ToList();
         }
-
-        #region Services
-        internal enum Services
-        {
-            HealthService,
-            NavigationService,
-        }
-
-        private readonly Dictionary<Services, ServiceRegistration> _services = new Dictionary<Services, ServiceRegistration>
-        {
-            [Services.HealthService] = ServiceRegistration.Transient<IHealthService, HealthService>(),
-            [Services.NavigationService] = ServiceRegistration.Transient<INavigationService, NavigationService>(),
-        };
-
-        public INavigationServiceComponent OverrideHealthService<T>()
-            where T : IHealthService
-        {
-            _services[Services.HealthService].ImplementationType = typeof(T);
-            return this;
-        }
-
-        public INavigationServiceComponent OverrideNavigationService<T>()
-            where T : INavigationService
-        {
-            _services[Services.NavigationService].ImplementationType = typeof(T);
-            return this;
-        }
-        #endregion Services
-
-        #region Mappers
-        internal enum Mappers
-        {
-            NavigationProtoMapper,
-            SubNavigationProtoMapper,
-            NavigationLinkProtoMapper
-        }
-
-        private readonly Dictionary<Mappers, ServiceRegistration> _mappers = new Dictionary<Mappers, ServiceRegistration>
-        {
-            [Mappers.NavigationProtoMapper] = ServiceRegistration.Transient<IMapper<INavigation, NavigationProto>, NavigationProtoMapper>(),
-            [Mappers.SubNavigationProtoMapper] = ServiceRegistration.Transient<IMapper<ISubNavigation, SubNavigationProto>, SubNavigationProtoMapper>(),
-            [Mappers.NavigationLinkProtoMapper] = ServiceRegistration.Transient<IMapper<INavigationLink, NavigationLinkProto>, NavigationLinkProtoMapper>(),
-        };
-
-        public INavigationServiceComponent OverrideNavigationProtoMapper<T>() where T : IMapper<INavigation, NavigationProto>
-        {
-            _mappers[Mappers.NavigationProtoMapper].ImplementationType = typeof(T);
-            return this;
-        }
-
-        public INavigationServiceComponent OverrideSubNavigationProtoMapper<T>() where T : IMapper<ISubNavigation, SubNavigationProto>
-        {
-            _mappers[Mappers.SubNavigationProtoMapper].ImplementationType = typeof(T);
-            return this;
-        }
-
-        public INavigationServiceComponent OverrideNavigationLinkProtoMapper<T>() where T : IMapper<INavigationLink, NavigationLinkProto>
-        {
-            _mappers[Mappers.NavigationLinkProtoMapper].ImplementationType = typeof(T);
-            return this;
-        }
-        #endregion Mappers
 
         #region Query Handlers
         internal enum QueryHandlers
         {
-            CheckNavigationHealthQueryHandler,
+            CheckNavigationServiceHealthQueryHandler,
 
             FetchNavigationsByHandlesQueryHandler,
             FetchNavigationsByIdsQueryHandler,
@@ -101,15 +35,15 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
 
         private readonly Dictionary<QueryHandlers, ServiceRegistration> _queryHandlers = new Dictionary<QueryHandlers, ServiceRegistration>
         {
-            [QueryHandlers.CheckNavigationHealthQueryHandler] = ServiceRegistration.Transient<IQueryHandler<CheckNavigationHealthQuery, HealthStatus>>(),
+            [QueryHandlers.CheckNavigationServiceHealthQueryHandler] = ServiceRegistration.Transient<IQueryHandler<CheckNavigationServiceHealthQuery, HealthStatus>>(),
 
-            [QueryHandlers.FetchNavigationsByHandlesQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationsByHandlesQuery, IList<INavigation>>>(),
-            [QueryHandlers.FetchNavigationsByIdsQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationsByIdsQuery, IList<INavigation>>>(),
+            [QueryHandlers.FetchNavigationsByHandlesQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationsByHandlesQuery, IList<Proto.Types.Navigation>>>(),
+            [QueryHandlers.FetchNavigationsByIdsQueryHandler] = ServiceRegistration.Transient<IQueryHandler<FetchNavigationsByIdsQuery, IList<Proto.Types.Navigation>>>(),
         };
 
-        public INavigationServiceComponent OverrideCheckNavigationHealthQueryHandler<T>() where T : ICheckNavigationHealthQueryHandler
+        public INavigationServiceComponent OverrideCheckNavigationServiceHealthQueryHandler<T>() where T : ICheckNavigationServiceHealthQueryHandler
         {
-            _queryHandlers[QueryHandlers.CheckNavigationHealthQueryHandler].ImplementationType = typeof(T);
+            _queryHandlers[QueryHandlers.CheckNavigationServiceHealthQueryHandler].ImplementationType = typeof(T);
             return this;
         }
 
@@ -125,5 +59,31 @@ namespace LightOps.Commerce.Services.Navigation.Configuration
             return this;
         }
         #endregion Query Handlers
+
+        #region Command Handlers
+        internal enum CommandHandlers
+        {
+            PersistNavigationCommandHandler,
+            DeleteNavigationCommandHandler,
+        }
+
+        private readonly Dictionary<CommandHandlers, ServiceRegistration> _commandHandlers = new Dictionary<CommandHandlers, ServiceRegistration>
+        {
+            [CommandHandlers.PersistNavigationCommandHandler] = ServiceRegistration.Transient<ICommandHandler<PersistNavigationCommand>>(),
+            [CommandHandlers.DeleteNavigationCommandHandler] = ServiceRegistration.Transient<ICommandHandler<DeleteNavigationCommand>>(),
+        };
+
+        public INavigationServiceComponent OverridePersistNavigationCommandHandler<T>() where T : IPersistNavigationCommandHandler
+        {
+            _commandHandlers[CommandHandlers.PersistNavigationCommandHandler].ImplementationType = typeof(T);
+            return this;
+        }
+
+        public INavigationServiceComponent OverrideDeleteNavigationCommandHandler<T>() where T : IDeleteNavigationCommandHandler
+        {
+            _commandHandlers[CommandHandlers.DeleteNavigationCommandHandler].ImplementationType = typeof(T);
+            return this;
+        }
+        #endregion Command Handlers
     }
 }
