@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - 2021-02-20
+
+### Changed
+
+- **Breaking** - Change handles to localized strings
+
 ## [0.5.1] - 2021-01-31
 
 ### Changed
@@ -96,7 +102,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Health service using CQRS for status checks
 - In-memory backend providing default query handlers
 
-[unreleased]: https://github.com/SorenA/lightops-commerce-services-navigation/compare/0.5.1...develop
+[unreleased]: https://github.com/SorenA/lightops-commerce-services-navigation/compare/0.6.0...develop
+[0.6.0]: https://github.com/SorenA/lightops-commerce-services-navigation/tree/0.6.0
 [0.5.1]: https://github.com/SorenA/lightops-commerce-services-navigation/tree/0.5.1
 [0.5.0]: https://github.com/SorenA/lightops-commerce-services-navigation/tree/0.5.0
 [0.4.1]: https://github.com/SorenA/lightops-commerce-services-navigation/tree/0.4.1
