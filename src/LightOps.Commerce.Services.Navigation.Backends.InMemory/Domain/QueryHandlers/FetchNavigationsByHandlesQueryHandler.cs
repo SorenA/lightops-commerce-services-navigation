@@ -18,9 +18,13 @@ namespace LightOps.Commerce.Services.Navigation.Backends.InMemory.Domain.QueryHa
 
         public Task<IList<Proto.Types.Navigation>> HandleAsync(FetchNavigationsByHandlesQuery query)
         {
+            // Match any localized handle
             var navigations = _inMemoryNavigationProvider
                 .Navigations?
-                .Where(c => query.Handles.Contains(c.Handle))
+                .Where(n => n.Handles
+                    .Select(ls => ls.Value)
+                    .Intersect(query.Handles)
+                    .Any())
                 .ToList();
 
             return Task.FromResult<IList<Proto.Types.Navigation>>(navigations ?? new List<Proto.Types.Navigation>());
